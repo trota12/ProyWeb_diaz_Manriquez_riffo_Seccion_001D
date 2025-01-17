@@ -1,87 +1,114 @@
+
+
+* {
+	box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+	background-color:rgb(6, 89, 191);
+	font-family: 'Open Sans', sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	margin: 0;
 }
 
-.login-container {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+.container {
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+	overflow: hidden;
+	width: 400px;
+	max-width: 100%;
 }
 
-h1 {
-    text-align: center;
-    color: #333333;
+.header {
+	border-bottom: 1px solid #f0f0f0;
+	background-color: #f7f7f7;
+	padding: 20px 40px;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.header h2 {
+	margin: 0;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555555;
+.form {
+	padding: 30px 40px;	
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
+.form-control {
+	margin-bottom: 10px;
+	padding-bottom: 20px;
+	position: relative;
 }
 
-.password-container {
-    display: flex;
-    align-items: center;
+.form-control label {
+	display: inline-block;
+	margin-bottom: 5px;
 }
 
-.password-container button {
-    margin-left: 5px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+.form-control input {
+	border: 2px solid #f0f0f0;
+	border-radius: 4px;
+	display: block;
+	font-family: inherit;
+	font-size: 14px;
+	padding: 10px;
+	width: 100%;
 }
 
-.error-message {
-    color: red;
-    font-size: 12px;
-    display: none;
+.form-control input:focus {
+	outline: 0;
+	border-color: #777;
 }
 
-.btn {
-    width: 100%;
-    padding: 10px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.form-control.success input {
+	border-color: #2ecc71;
 }
 
-.btn:hover {
-    background: #45a049;
+.form-control.error input {
+	border-color: #e74c3c;
 }
 
-.register-link {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
+.form-control i {
+	visibility: hidden;
+	position: absolute;
+	top: 40px;
+	right: 10px;
 }
 
-.register-link a {
-    color: #007BFF;
-    text-decoration: none;
+.form-control.success i.fa-check-circle {
+	color: #2ecc71;
+	visibility: visible;
 }
 
-.register-link a:hover {
-    text-decoration: underline;
+.form-control.error i.fa-exclamation-circle {
+	color: #e74c3c;
+	visibility: visible;
+}
+
+.form-control small {
+	color: #e74c3c;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	visibility: hidden;
+}
+
+.form-control.error small {
+	visibility: visible;
+}
+
+.form button {
+	background-color: #273ebc;
+	border: 2px solid #8e44ad;
+	border-radius: 4px;
+	color: #fff;
+	display: block;
+	font-family: inherit;
+	font-size: 16px;
+	padding: 10px;
+	margin-top: 20px;
+	width: 100%;
 }

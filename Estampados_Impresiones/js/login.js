@@ -1,38 +1,71 @@
-document.getElementById('togglePassword').addEventListener('click', function () {
-    const passwordInput = document.getElementById('password');
-    const type = passwordInput.type === 'password' ? 'text' : 'password';
-    passwordInput.type = type;
-    this.textContent = type === 'password' ? '👁️' : '🙈';
+const form = document.getElementById("form");
+const email = document.getElementById("Email");
+const password = document.getElementById("password");
+
+// Escucha el evento de envío del formulario
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // Evita el envío del formulario
+  validateLoginInputs();
 });
 
-document.getElementById('loginForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    let isValid = true;
+// Función para validar los campos del formulario
+function validateLoginInputs() {
+  const emailValue = email.value.trim();
+  const passwordValue = password.value.trim();
 
-    // Validar correo
-    const email = document.getElementById('email').value;
-    const emailError = document.getElementById('emailError');
-    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-        emailError.textContent = 'Correo inválido.';
-        emailError.style.display = 'block';
-        isValid = false;
-    } else {
-        emailError.style.display = 'none';
-    }
+  // Validar el campo de email
+  if (emailValue === "") {
+    setErrorFor(email, "El email no puede estar vacío.");
+  } else if (!isEmail(emailValue)) {
+    setErrorFor(email, "El email no es válido.");
+  } else {
+    setSuccessFor(email);
+  }
 
-    // Validar contraseña
-    const password = document.getElementById('password').value;
-    const passwordError = document.getElementById('passwordError');
-    if (password.length < 6) {
-        passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres.';
-        passwordError.style.display = 'block';
-        isValid = false;
-    } else {
-        passwordError.style.display = 'none';
-    }
+  // Validar el campo de contraseña
+  if (passwordValue === "") {
+    setErrorFor(password, "La contraseña no puede estar vacía.");
+  } else {
+    setSuccessFor(password);
+  }
 
-    if (isValid) {
-        alert('Formulario enviado con éxito');
-        // Aquí puedes manejar el envío del formulario (e.g., AJAX, redireccionar, etc.)
-    }
-});
+  // Verificar si ambos campos son válidos antes de proceder
+  if (emailValue !== "" && isEmail(emailValue) && passwordValue !== "") {
+    alert("¡Inicio de sesión exitoso!");
+    // Aquí puedes usar un fetch o enviar el formulario
+    // form.submit();
+  }
+}
+
+// Función para mostrar error en un campo
+function setErrorFor(input, message) {
+  const formControl = input.parentElement;
+  const small = formControl.querySelector("small");
+  formControl.className = "form-control error";
+  small.innerText = message;
+}
+
+// Función para mostrar éxito en un campo
+function setSuccessFor(input) {
+  const formControl = input.parentElement;
+  formControl.className = "form-control success";
+}
+
+// Función para validar formato de email
+function isEmail(email) {
+  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email
+  );
+}
+function togglePassword() {
+          const passwordField = document.getElementById("password");
+          const toggleButton = document.querySelector(".toggle-password");
+          
+          if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleButton.textContent = "🙈";
+          } else {
+            passwordField.type = "password";
+            toggleButton.textContent = "👁️";
+          }
+        }

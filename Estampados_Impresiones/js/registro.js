@@ -11,7 +11,6 @@ form.addEventListener("submit", (e) => {
 });
 
 function checkInputs() {
-  // trim to remove the whitespaces
   const usuarioValue = usuario.value.trim();
   const emailValue = email.value.trim();
   const passwordValue = password.value.trim();
