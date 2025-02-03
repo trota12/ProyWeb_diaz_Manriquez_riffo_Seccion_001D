@@ -13,6 +13,14 @@ from rest_framework import viewsets, filters
 from .models import Producto, Categoria, Pedido
 from .serializers import ProductoSerializer, CategoriaSerializer, PedidoSerializer
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import PerfilForm, PerfilUsuarioForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import PerfilForm, PerfilUsuarioForm
+from .models import PerfilUsuario
+
 # Vistas normales
 def index(request):
     return render(request, 'index.html')
@@ -45,20 +53,23 @@ def vision(request):
     return render(request, 'vision.html')
 
 # Vista de registro
+from .models import PerfilUsuario
+
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.first_name = form.cleaned_data.get('first_name', '')  #  get para evitar KeyError
-            user.last_name = form.cleaned_data.get('last_name', '')  
-            user.save()
-
+            user = form.save()
+            
+            # ✅ Crear un perfil automáticamente después del registro
+            PerfilUsuario.objects.create(usuario=user, direccion='', telefono='')
+            
             login(request, user)
-            return redirect('index') 
+            return redirect('index')
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 # LOGIN
 def custom_login(request):
@@ -264,5 +275,48 @@ class ProductoViewSet(viewsets.ModelViewSet):
     ordering_fields = ['precio', 'nombre']
 
 class PedidoViewSet(viewsets.ModelViewSet):
-    queryset = Pedido.objects.all()
+    queryset = Pedido.objects.all()  # Agregar esto si falta
     serializer_class = PedidoSerializer
+
+def editar_perfil(request):
+    usuario = request.user
+    perfil, created = PerfilUsuario.objects.get_or_create(usuario=usuario)
+
+    if request.method == "POST":
+        form_usuario = PerfilForm(request.POST, instance=usuario)
+        form_perfil = PerfilUsuarioForm(request.POST, instance=perfil)
+
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            form_usuario.save()
+            form_perfil.save()
+            return redirect('perfil')  # Redirige a la página del perfil
+
+    else:
+        form_usuario = PerfilForm(instance=usuario)
+        form_perfil = PerfilUsuarioForm(instance=perfil)
+
+    return render(request, 'usuarios/editar_perfil.html', {
+        'form_usuario': form_usuario,
+        'form_perfil': form_perfil
+    })
+
+def editar_perfil(request):
+    usuario = request.user
+    perfil, created = PerfilUsuario.objects.get_or_create(usuario=usuario)  # ✅ Si no existe, lo crea
+
+    if request.method == "POST":
+        form_usuario = PerfilForm(request.POST, instance=usuario)
+        form_perfil = PerfilUsuarioForm(request.POST, instance=perfil)
+
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            form_usuario.save()
+            form_perfil.save()
+            return redirect('index')  # Redirigir a la página principal o perfil
+    else:
+        form_usuario = PerfilForm(instance=usuario)
+        form_perfil = PerfilUsuarioForm(instance=perfil)
+
+    return render(request, 'usuarios/editar_perfil.html', {
+        'form_usuario': form_usuario,
+        'form_perfil': form_perfil
+    })

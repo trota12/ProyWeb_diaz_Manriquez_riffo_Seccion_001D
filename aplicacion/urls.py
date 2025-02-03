@@ -5,12 +5,18 @@ from django.contrib.auth import views as auth_views
 from .views import iniciar_pago, respuesta, admin_login, vista_admin, agregar_producto, editar_producto, eliminar_producto, ProductoViewSet, CategoriaViewSet, PedidoViewSet
 
 from rest_framework.routers import DefaultRouter
-
+from .views import editar_perfil
+from .views import PedidoSerializer
+from django.conf.urls.static import static
+from django.conf import settings
 
 router = DefaultRouter()
 router.register(r'productos', ProductoViewSet)
 router.register(r'categorias', CategoriaViewSet)
-router.register(r'pedidos', PedidoViewSet)
+
+router.register(r'pedidos', PedidoViewSet, basename='pedidos')
+
+
 
 
 urlpatterns = [
@@ -34,4 +40,6 @@ urlpatterns = [
     path('vista_admin/editar/<int:producto_id>/', editar_producto, name='editar_producto'),
     path('vista_admin/eliminar/<int:producto_id>/', eliminar_producto, name='eliminar_producto'),
     path('api/', include(router.urls)),
+    path('editar-perfil/', editar_perfil, name='editar_perfil'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

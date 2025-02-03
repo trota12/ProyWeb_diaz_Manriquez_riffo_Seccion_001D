@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Editar Perfil</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <h3>Datos de Usuario</h3>
+        <div class="form-group">
+            {{ form_usuario.first_name.label_tag }} {{ form_usuario.first_name }}
+        </div>
+        <div class="form-group">
+            {{ form_usuario.last_name.label_tag }} {{ form_usuario.last_name }}
+        </div>
+        <div class="form-group">
+            {{ form_usuario.email.label_tag }} {{ form_usuario.email }}
+        </div>
+
+        <h3>Datos de Contacto</h3>
+        <div class="form-group">
+            {{ form_perfil.direccion.label_tag }} {{ form_perfil.direccion }}
+        </div>
+        <div class="form-group">
+            {{ form_perfil.telefono.label_tag }} {{ form_perfil.telefono }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </form>
+</div>
+{% endblock %}
