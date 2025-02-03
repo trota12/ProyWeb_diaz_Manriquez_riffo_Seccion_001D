@@ -1,0 +1,6 @@
+django>=4.0,<5.0
+djangorestframework
+django-crispy-forms
+crispy-bootstrap5
+pillow
+git+https://github.com/TransbankDevelopers/transbank-sdk-python.git
